@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
 import { setFavorite, deleteFavorite } from "../actions";
@@ -11,7 +11,7 @@ const Character = (props) => {
   const [modal, setModal] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
-  const { data } = props;
+  const { data, favoriteCharacters } = props;
   const { id, image, name, status, species, gender } = data;
 
   const handleCloseModal = () => {
@@ -28,9 +28,22 @@ const Character = (props) => {
   };
 
   const handleDeleteFavorite = (itemId) => {
-      props.deleteFavorite(itemId);
-      setFavorite(false);
+    props.deleteFavorite(itemId);
+    setFavorite(false);
   };
+
+  const isFavorite = () => {
+    const result = favoriteCharacters.filter(
+      (favoriteCharacter) => favoriteCharacter.data.id === id
+    );
+    if (result.length) {
+      setFavorite(true);
+    }
+  };
+
+  useEffect(() => {
+    isFavorite();
+  }, []);
 
   return (
     <div className="character">
@@ -82,7 +95,7 @@ Character.propTypes = {
 // native redux functions
 const mapStateToProps = (state) => {
   return {
-    //favoriteCharacters: state.favoriteCharacters,
+    favoriteCharacters: state.favoriteCharacters,
   };
 };
 
