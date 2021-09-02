@@ -20,7 +20,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ["svgr/webpack"],
+        use: ["@svgr/webpack"],
       },
       {
         test: /\.(gif|png|jpe?g)$/i,

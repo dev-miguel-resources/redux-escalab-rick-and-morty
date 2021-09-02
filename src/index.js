@@ -14,13 +14,18 @@ const initialState = {
   sectionActive: "Characters",
 };
 
+const middlewares = [];
+if (process.env.NODE_ENV === "development") {
+  middlewares.push(logger);
+}
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // store
 const store = createStore(
   reducer,
   initialState,
-  composeEnhancers(applyMiddleware(logger))
+  composeEnhancers(applyMiddleware(...middlewares))
 );
 
 ReactDOM.render(
